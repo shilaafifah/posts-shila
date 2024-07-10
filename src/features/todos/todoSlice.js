@@ -15,6 +15,39 @@ export const fetchTodos = createAsyncThunk('todos/fetchTodos', async (userId = n
   }));
 });
 
+export const editTodo = createAsyncThunk(
+  'todos/editTodo',
+  async ({ id, title, details }) => {
+    try {
+      const response = await axios.patch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+        title,
+        body: details
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error editing todo:', error);
+      throw error;
+    }
+  }
+);
+
+export const deleteTodo = createAsyncThunk(
+  'todos/deleteTodo',
+  async (id) => {
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
+      return id; 
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+      throw error;
+    }
+  }
+);
+
+export const fetchUsers = createAsyncThunk('todos/fetchUsers', async () => {
+  const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+  return response.data;
+});
 
 const initialState = {
   list: [],
@@ -32,6 +65,22 @@ const todoSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
       state.list = action.payload;
+    });
+    builder.addCase(editTodo.fulfilled, (state, action) => {
+      // Update the state to reflect the edited todo
+      const editedTodo = action.payload;
+      const existingTodo = state.list.find(todo => todo.id === editedTodo.id);
+      if (existingTodo) {
+        existingTodo.title = editedTodo.title;
+        existingTodo.details = editedTodo.body; // Assuming API response uses 'body' for details
+      }
+    });
+    builder.addCase(deleteTodo.fulfilled, (state, action) => {
+      // Remove the deleted todo from state
+      state.list = state.list.filter(todo => todo.id !== action.payload);
+    });
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.users = action.payload;
     });
   }
 });
