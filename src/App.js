@@ -10,6 +10,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<TodoList />} />
         <Route path="add-todo" element={<AddTodo />}/>
+        <Route path="edit-todo/:id" element={<EditTodo />}/>
         <Route path="*" element={<NotFound />}/>
       </Route>
     </Routes>
