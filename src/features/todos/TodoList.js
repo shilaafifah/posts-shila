@@ -55,7 +55,7 @@ const TodoList = () => {
   return (
     <>
       <div className="flex flex-wrap flex-col xxs:flex-row justify-between text-center items-center mx-auto max-w-screen-xl mb-4">
-        <h1 className="font-bold text-2xl text-gray-700">CRUD TodoList with Redux Toolkit</h1>
+        <h1 className="font-bold text-2xl text-gray-700">CRUD To Do List Shila</h1>
         <div className="relative">
           <label htmlFor="userFilter" className="block text-gray-700">Filter by User:</label>
           <select

@@ -67,16 +67,14 @@ const todoSlice = createSlice({
       state.list = action.payload;
     });
     builder.addCase(editTodo.fulfilled, (state, action) => {
-      // Update the state to reflect the edited todo
       const editedTodo = action.payload;
       const existingTodo = state.list.find(todo => todo.id === editedTodo.id);
       if (existingTodo) {
         existingTodo.title = editedTodo.title;
-        existingTodo.details = editedTodo.body; // Assuming API response uses 'body' for details
+        existingTodo.details = editedTodo.body; 
       }
     });
     builder.addCase(deleteTodo.fulfilled, (state, action) => {
-      // Remove the deleted todo from state
       state.list = state.list.filter(todo => todo.id !== action.payload);
     });
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
